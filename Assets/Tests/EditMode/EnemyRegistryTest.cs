@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Reflection;
 using NUnit.Framework;
 using UnityEngine;
+using TowerDefense.Core;
 using TowerDefense.Enemies;
 using TowerDefense.Systems;
 
@@ -20,12 +22,15 @@ namespace TowerDefense.Tests.EditMode
         {
             _createdObjects = new List<GameObject>();
 
+            // 清理可能残留的Singleton实例
+            ClearSingleton<EnemyRegistry>();
+
             // 创建EnemyData
             _enemyData = ScriptableObject.CreateInstance<EnemyData>();
             _enemyData.MaxHealth = 100;
             _enemyData.BodyColor = Color.red;
 
-            // 创建EnemyRegistry实例
+            // 创建EnemyRegistry实例（必须在创建Enemy之前，因为Enemy.Initialize会自动注册）
             var go = new GameObject("EnemyRegistry");
             _registry = go.AddComponent<EnemyRegistry>();
             _createdObjects.Add(go);
@@ -39,6 +44,16 @@ namespace TowerDefense.Tests.EditMode
                 if (obj != null) Object.DestroyImmediate(obj);
             }
             Object.DestroyImmediate(_enemyData);
+            ClearSingleton<EnemyRegistry>();
+        }
+
+        /// <summary>
+        /// 清理Singleton的_instance字段。
+        /// </summary>
+        private void ClearSingleton<T>() where T : MonoBehaviour
+        {
+            var field = typeof(Singleton<T>).GetField("_instance", BindingFlags.NonPublic | BindingFlags.Static);
+            if (field != null) field.SetValue(null, null);
         }
 
         /// <summary>
@@ -60,12 +75,11 @@ namespace TowerDefense.Tests.EditMode
             // Arrange
             var enemy = CreateEnemyAt(Vector3.zero);
 
-            // Act
-            _registry.Register(enemy);
+            // Act - Enemy.Initialize已自动注册，这里验证数量
+            int count = _registry.GetAllActiveEnemies().Count;
 
             // Assert
-            Assert.AreEqual(1, _registry.GetAllActiveEnemies().Count,
-                "注册后应有1个活跃敌人");
+            Assert.AreEqual(1, count, "注册后应有1个活跃敌人");
         }
 
         [Test]
@@ -73,7 +87,6 @@ namespace TowerDefense.Tests.EditMode
         {
             // Arrange
             var enemy = CreateEnemyAt(Vector3.zero);
-            _registry.Register(enemy);
 
             // Act
             _registry.Unregister(enemy);
@@ -88,7 +101,6 @@ namespace TowerDefense.Tests.EditMode
         {
             // Arrange
             var enemy = CreateEnemyAt(Vector3.zero);
-            _registry.Register(enemy);
             var results = new List<Enemy>();
 
             // Act
@@ -104,7 +116,6 @@ namespace TowerDefense.Tests.EditMode
         {
             // Arrange
             var enemy = CreateEnemyAt(new Vector3(10f, 0f, 0f));
-            _registry.Register(enemy);
             var results = new List<Enemy>();
 
             // Act
@@ -122,10 +133,6 @@ namespace TowerDefense.Tests.EditMode
             var enemy2 = CreateEnemyAt(new Vector3(1f, 0f, 0f)); // 范围内
             var enemy3 = CreateEnemyAt(new Vector3(5f, 0f, 0f)); // 范围外
             var enemy4 = CreateEnemyAt(new Vector3(0f, 1.5f, 0f)); // 范围内
-            _registry.Register(enemy1);
-            _registry.Register(enemy2);
-            _registry.Register(enemy3);
-            _registry.Register(enemy4);
             var results = new List<Enemy>();
 
             // Act
@@ -144,7 +151,6 @@ namespace TowerDefense.Tests.EditMode
         {
             // Arrange - 敌人正好在范围边界上
             var enemy = CreateEnemyAt(new Vector3(2f, 0f, 0f));
-            _registry.Register(enemy);
             var results = new List<Enemy>();
 
             // Act
@@ -159,7 +165,6 @@ namespace TowerDefense.Tests.EditMode
         {
             // Arrange
             var enemy = CreateEnemyAt(Vector3.zero);
-            _registry.Register(enemy);
             var results = new List<Enemy>();
 
             // 初始在范围内
@@ -180,9 +185,9 @@ namespace TowerDefense.Tests.EditMode
         public void Clear_ShouldRemoveAllEnemies()
         {
             // Arrange
-            _registry.Register(CreateEnemyAt(Vector3.zero));
-            _registry.Register(CreateEnemyAt(new Vector3(1f, 0f, 0f)));
-            _registry.Register(CreateEnemyAt(new Vector3(2f, 0f, 0f)));
+            CreateEnemyAt(Vector3.zero);
+            CreateEnemyAt(new Vector3(1f, 0f, 0f));
+            CreateEnemyAt(new Vector3(2f, 0f, 0f));
 
             // Act
             _registry.Clear();
@@ -197,9 +202,8 @@ namespace TowerDefense.Tests.EditMode
             // Arrange
             var enemy = CreateEnemyAt(Vector3.zero);
 
-            // Act
+            // Act - 手动重复注册
             _registry.Register(enemy);
-            _registry.Register(enemy); // 重复注册
 
             // Assert
             Assert.AreEqual(1, _registry.GetAllActiveEnemies().Count,

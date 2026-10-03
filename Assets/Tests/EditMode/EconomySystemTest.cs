@@ -1,3 +1,4 @@
+using System.Reflection;
 using NUnit.Framework;
 using UnityEngine;
 using TowerDefense.Core;
@@ -16,6 +17,9 @@ namespace TowerDefense.Tests.EditMode
         [SetUp]
         public void SetUp()
         {
+            // 清理可能残留的Singleton实例
+            ClearSingleton<GameManager>();
+
             // 创建GameManager实例（Singleton会自动初始化金币）
             var go = new GameObject("GameManager");
             _gameManager = go.AddComponent<GameManager>();
@@ -30,6 +34,16 @@ namespace TowerDefense.Tests.EditMode
         {
             Object.DestroyImmediate(_gameManager.gameObject);
             Object.DestroyImmediate(_economySystem.gameObject);
+            ClearSingleton<GameManager>();
+        }
+
+        /// <summary>
+        /// 清理Singleton的_instance字段。
+        /// </summary>
+        private void ClearSingleton<T>() where T : MonoBehaviour
+        {
+            var field = typeof(Singleton<T>).GetField("_instance", BindingFlags.NonPublic | BindingFlags.Static);
+            if (field != null) field.SetValue(null, null);
         }
 
         [Test]

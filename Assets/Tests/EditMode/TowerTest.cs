@@ -1,5 +1,7 @@
+using System.Reflection;
 using NUnit.Framework;
 using UnityEngine;
+using TowerDefense.Core;
 using TowerDefense.Towers;
 
 namespace TowerDefense.Tests.EditMode
@@ -11,10 +13,19 @@ namespace TowerDefense.Tests.EditMode
     {
         private Tower _tower;
         private TowerData _towerData;
+        private GameManager _gameManager;
 
         [SetUp]
         public void SetUp()
         {
+            // 清理可能残留的Singleton实例
+            ClearSingleton<GameManager>();
+
+            // 创建GameManager并给足够金币
+            var gmGo = new GameObject("GameManager");
+            _gameManager = gmGo.AddComponent<GameManager>();
+            _gameManager.AddGold(10000); // 给足够金币用于升级
+
             // 创建TowerData配置
             _towerData = ScriptableObject.CreateInstance<TowerData>();
             _towerData.Type = TowerType.Archer;
@@ -43,6 +54,17 @@ namespace TowerDefense.Tests.EditMode
         {
             Object.DestroyImmediate(_tower.gameObject);
             Object.DestroyImmediate(_towerData);
+            Object.DestroyImmediate(_gameManager.gameObject);
+            ClearSingleton<GameManager>();
+        }
+
+        /// <summary>
+        /// 清理Singleton的_instance字段。
+        /// </summary>
+        private void ClearSingleton<T>() where T : MonoBehaviour
+        {
+            var field = typeof(Singleton<T>).GetField("_instance", BindingFlags.NonPublic | BindingFlags.Static);
+            if (field != null) field.SetValue(null, null);
         }
 
         [Test]

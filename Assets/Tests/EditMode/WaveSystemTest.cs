@@ -20,6 +20,9 @@ namespace TowerDefense.Tests.EditMode
         [SetUp]
         public void SetUp()
         {
+            // 清理可能残留的Singleton实例
+            ClearSingleton<GameManager>();
+
             // 创建GameManager
             var gmGo = new GameObject("GameManager");
             _gameManager = gmGo.AddComponent<GameManager>();
@@ -62,6 +65,16 @@ namespace TowerDefense.Tests.EditMode
             Object.DestroyImmediate(_gameManager.gameObject);
             Object.DestroyImmediate(_waveSystem.gameObject);
             Object.DestroyImmediate(_enemyData);
+            ClearSingleton<GameManager>();
+        }
+
+        /// <summary>
+        /// 清理Singleton的_instance字段。
+        /// </summary>
+        private void ClearSingleton<T>() where T : MonoBehaviour
+        {
+            var field = typeof(Singleton<T>).GetField("_instance", BindingFlags.NonPublic | BindingFlags.Static);
+            if (field != null) field.SetValue(null, null);
         }
 
         /// <summary>
@@ -114,13 +127,11 @@ namespace TowerDefense.Tests.EditMode
         [Test]
         public void Countdown_WhenReachesZero_ShouldStartWave()
         {
-            // Arrange - 启动倒计时，然后手动把倒计时设为接近0
+            // Arrange - 启动倒计时，然后手动把倒计时设为负数模拟倒计时结束
             _waveSystem.StartFirstWaveCountdown();
-            SetPrivateField(_waveSystem, "_waveCountdown", 0.01f);
-
-            // Act - 调用Update，倒计时会减到0以下，触发StartNextWave
-            // 注意：EditMode下Time.deltaTime可能很小，所以我们直接设为负数模拟倒计时结束
             SetPrivateField(_waveSystem, "_waveCountdown", -0.1f);
+
+            // Act - 调用Update，倒计时会触发StartNextWave
             InvokeUpdate();
 
             // Assert
@@ -138,7 +149,7 @@ namespace TowerDefense.Tests.EditMode
             _waveSystem.StartFirstWaveCountdown();
             SetPrivateField(_waveSystem, "_waveCountdown", 3f);
 
-            // Act - 调用Update，但倒计时仍大于0（假设deltaTime很小）
+            // Act - 调用Update，但倒计时仍大于0
             InvokeUpdate();
 
             // Assert
