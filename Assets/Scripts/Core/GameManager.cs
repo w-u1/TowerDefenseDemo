@@ -14,7 +14,7 @@ namespace TowerDefense.Core
         [SerializeField] private int _startingGold = 300;
 
         [Tooltip("初始生命值")]
-        [SerializeField] private int _startingLives = 25;
+        [SerializeField] private int _startingLives = 10;
 
         [Tooltip("总波次数")]
         [SerializeField] private int _totalWaves = 15;
@@ -202,3 +202,4 @@ namespace TowerDefense.Core
         }
     }
 }
+
