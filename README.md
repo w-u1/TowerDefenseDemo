@@ -4,10 +4,9 @@
 
 ## 游戏演示
 
-<video width="960" height="540" controls>
-  <source src="https://aka.doubaocdn.com/s/dLHYkqQmPR" type="video/mp4">
-  您的浏览器不支持视频播放。
-</video>
+[![点击观看游戏演示视频](https://aka.doubaocdn.com/s/tUgPDdKfNs)](https://aka.doubaocdn.com/s/dLHYkqQmPR)
+
+> 点击上方图片观看完整游戏演示视频
 
 ## 游戏截图
 
