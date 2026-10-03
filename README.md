@@ -1,4 +1,4 @@
-﻿# 塔防大作战
+# 塔防大作战
 
 一款基于 Unity 2022.3 开发的 2D 塔防游戏。
 
@@ -7,11 +7,32 @@
 ## 游戏演示
 
 <video width="960" height="540" controls>
-  <source src="docs/gameplay-demo.mp4" type="video/mp4">
+  <source src="https://aka.doubaocdn.com/s/dLHYkqQmPR" type="video/mp4">
   您的浏览器不支持视频播放。
 </video>
 
-> 注：视频文件较大（约108MB），若无法直接推送到GitHub，可压缩至100MB以下，或上传到GitHub Release后修改链接。
+## 游戏截图
+
+### 主界面
+![主界面](https://aka.doubaocdn.com/s/cRbLEjZedV)
+
+### 关卡选择
+![关卡选择](https://aka.doubaocdn.com/s/yzTj3PyEsq)
+
+### 游戏战斗
+![游戏战斗](https://aka.doubaocdn.com/s/tUgPDdKfNs)
+
+### 炮塔信息面板
+![炮塔信息](https://aka.doubaocdn.com/s/N8HKVXT0UX)
+
+### 炮塔商店
+![炮塔商店](https://aka.doubaocdn.com/s/kO6rPKJTV6)
+
+### 暂停菜单
+![暂停菜单](https://aka.doubaocdn.com/s/ieFkUhUucO)
+
+### 游戏结算
+![游戏结算](https://aka.doubaocdn.com/s/xVFope6zst)
 
 ## 游戏特色
 
@@ -178,4 +199,3 @@ Assets/
 
 ### v1.0.0
 - 初始正式版本
-
