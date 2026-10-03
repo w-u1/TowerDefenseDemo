@@ -19,12 +19,16 @@ namespace TowerDefense.UI
         private Text _countdownText;
         private Text _speedButtonText;
         private Text _pauseButtonText;
-        private Text _pauseButtonText;
         private Text _fpsText;
         private Image _waveProgressFill;
 
+        private int _currentSpeedIndex = 0;
+        private readonly float[] _speedOptions = { 1f, 2f, 3f };
+
         private float _fpsTimer;
         private int _fpsFrameCount;
+
+        public void Initialize()
         {
             var rect = GetComponent<RectTransform>();
             rect.anchorMin = Vector2.zero;
@@ -481,7 +485,6 @@ namespace TowerDefense.UI
                 _fpsTimer = 0f;
             }
         }
-
         private void OnPauseClicked()
         {
             GameManager.Instance.TogglePause();
@@ -526,6 +529,8 @@ namespace TowerDefense.UI
         }
     }
 }
+
+
 
 
 
