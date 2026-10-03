@@ -50,7 +50,7 @@ namespace TowerDefense.UI
                 new Color(1f, 0.82f, 0.15f, 0.9f), new Color(0.4f, 0.25f, 0f, 1f), new Color(0.4f, 0.25f, 0f, 1f));
 
             // ===== 生命标签 =====
-            _livesText = CreateResourceLabel("LivesLabel", new Vector2(230, -48), "生命", "20",
+            _livesText = CreateResourceLabel("LivesLabel", new Vector2(230, -48), "生命", "10",
                 new Color(0.95f, 0.3f, 0.3f, 0.9f), Color.white, Color.white);
             // ===== 中间：波次徽章 =====
             var waveBadgeGo = new GameObject("WaveBadge", typeof(RectTransform));
@@ -529,6 +529,7 @@ namespace TowerDefense.UI
         }
     }
 }
+
 
 
 
