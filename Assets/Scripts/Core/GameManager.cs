@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using TowerDefense.Systems;
 
 namespace TowerDefense.Core
@@ -74,7 +74,6 @@ namespace TowerDefense.Core
             var previous = _currentState;
             _currentState = newState;
 
-            Debug.Log($"[GameManager] 状态切换: {previous} -> {newState}");
             EventBus.Publish(new GameStateChangedEvent { NewState = newState, PreviousState = previous });
 
             // 状态进入逻辑

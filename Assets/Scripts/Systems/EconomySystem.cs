@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using TowerDefense.Core;
 
 namespace TowerDefense.Systems
@@ -62,7 +62,6 @@ namespace TowerDefense.Systems
             // 波次完成奖励
             int bonus = _waveCompleteBonus + (evt.WaveNumber - 1) * _waveBonusIncrement;
             GameManager.Instance.AddGold(bonus);
-            Debug.Log($"[EconomySystem] 波次 {evt.WaveNumber} 完成奖励: {bonus} 金币");
 
             // 利息
             if (_enableInterest)
@@ -74,7 +73,6 @@ namespace TowerDefense.Systems
                 if (interest > 0)
                 {
                     GameManager.Instance.AddGold(interest);
-                    Debug.Log($"[EconomySystem] 利息收入: {interest} 金币");
                 }
             }
         }

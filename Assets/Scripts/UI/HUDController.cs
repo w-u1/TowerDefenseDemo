@@ -19,12 +19,12 @@ namespace TowerDefense.UI
         private Text _countdownText;
         private Text _speedButtonText;
         private Text _pauseButtonText;
+        private Text _pauseButtonText;
+        private Text _fpsText;
         private Image _waveProgressFill;
 
-        private int _currentSpeedIndex = 0;
-        private readonly float[] _speedOptions = { 1f, 2f, 3f };
-
-        public void Initialize()
+        private float _fpsTimer;
+        private int _fpsFrameCount;
         {
             var rect = GetComponent<RectTransform>();
             rect.anchorMin = Vector2.zero;
@@ -116,6 +116,15 @@ namespace TowerDefense.UI
             var menuButton = CreateRoundButton("MenuButton", "菜单", 90, 66,
                 new Vector2(-150, -50), new Color(0.4f, 0.4f, 0.6f, 1f), new Color(0.25f, 0.25f, 0.4f, 1f));
             menuButton.onClick.AddListener(OnMenuClicked);
+
+            // FPS显示（右上角）
+            _fpsText = UIManager.CreateText(transform, "FPSText", "FPS: 60", 20,
+                TextAnchor.MiddleRight, new Vector2(120, 30), new Vector2(-30, -30),
+                new Color(0.7f, 1f, 0.7f, 0.8f));
+            var fpsRect = _fpsText.GetComponent<RectTransform>();
+            fpsRect.anchorMin = new Vector2(1, 1);
+            fpsRect.anchorMax = new Vector2(1, 1);
+            fpsRect.pivot = new Vector2(1, 1);
 
             // 订阅事件
             EventBus.Subscribe<GoldChangedEvent>(OnGoldChanged);
@@ -460,7 +469,19 @@ namespace TowerDefense.UI
                     _countdownText.text = $"下一波: {ws.WaveCountdown:F1}s";
                 }
             }
+
+            // 更新FPS（每0.5秒刷新一次）
+            _fpsFrameCount++;
+            _fpsTimer += Time.unscaledDeltaTime;
+            if (_fpsTimer >= 0.5f)
+            {
+                float fps = _fpsFrameCount / _fpsTimer;
+                if (_fpsText != null) _fpsText.text = $"FPS: {fps:F0}";
+                _fpsFrameCount = 0;
+                _fpsTimer = 0f;
+            }
         }
+
         private void OnPauseClicked()
         {
             GameManager.Instance.TogglePause();
@@ -505,6 +526,7 @@ namespace TowerDefense.UI
         }
     }
 }
+
 
 
 

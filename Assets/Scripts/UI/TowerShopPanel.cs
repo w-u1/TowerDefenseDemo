@@ -205,7 +205,6 @@ namespace TowerDefense.UI
         {
             if (GameManager.Instance.CurrentGold < data.BuildCost)
             {
-                Debug.Log($"[TowerShop] 金币不足，需要 {data.BuildCost}");
                 return;
             }
 

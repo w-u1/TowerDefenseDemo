@@ -123,7 +123,6 @@ namespace TowerDefense.Systems
 
             if (_currentWaveIndex >= _waves.Count)
             {
-                Debug.Log("[WaveSystem] 所有波次已完成。");
                 return;
             }
 
@@ -158,7 +157,6 @@ namespace TowerDefense.Systems
                 TotalEnemies = _totalEnemiesInWave
             });
 
-            Debug.Log($"[WaveSystem] 第 {wave.WaveNumber} 波开始，共 {_totalEnemiesInWave} 个敌人。");
 
             _waveCoroutine = StartCoroutine(SpawnWaveCoroutine(wave));
         }
@@ -233,7 +231,6 @@ namespace TowerDefense.Systems
             var wave = _waves[_currentWaveIndex];
 
             EventBus.Publish(new WaveCompletedEvent { WaveNumber = wave.WaveNumber });
-            Debug.Log($"[WaveSystem] 第 {wave.WaveNumber} 波完成。");
 
             _currentWaveIndex++;
 
@@ -278,7 +275,6 @@ namespace TowerDefense.Systems
             // 提前开始波次奖励
             int bonus = 20 + _currentWaveIndex * 5;
             GameManager.Instance.AddGold(bonus);
-            Debug.Log($"[WaveSystem] 提前开始波次，奖励 {bonus} 金币。");
 
             StartNextWave();
         }

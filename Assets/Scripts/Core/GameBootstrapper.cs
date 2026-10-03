@@ -57,7 +57,6 @@ namespace TowerDefense.Core
         /// </summary>
         public void BootstrapGame()
         {
-            Debug.Log("[GameBootstrapper] 初始化基础...");
 
             // 1. 创建摄像机
             SetupCamera();
@@ -95,7 +94,6 @@ namespace TowerDefense.Core
         /// </summary>
         public void StartGame()
         {
-            Debug.Log($"[GameBootstrapper] 开始第{CurrentLevel}关...");
 
             // 创建地图和路径
             CreateMapAndPath();
@@ -123,7 +121,6 @@ namespace TowerDefense.Core
             // 添加可交互奖励
             CreateInteractiveRewards();
 
-            Debug.Log("[GameBootstrapper] 游戏开始！");
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace TowerDefense.Core
@@ -84,7 +84,6 @@ namespace TowerDefense.Core
         public static void ClearAll()
         {
             _handlers.Clear();
-            UnityEngine.Debug.Log("[EventBus] 所有事件订阅已清空");
         }
 
         /// <summary>

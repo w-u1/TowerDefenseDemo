@@ -113,7 +113,6 @@ namespace TowerDefense.Towers
             // 检查金币
             if (!GameManager.Instance.TrySpendGold(_selectedTowerData.BuildCost))
             {
-                Debug.Log($"[TowerPlacer] 金币不足，需要 {_selectedTowerData.BuildCost}");
                 return false;
             }
 
