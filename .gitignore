@@ -88,3 +88,6 @@ screenshot_info.png
 
 # VS配置
 .vsconfig
+
+# 大文件视频（超过GitHub 100MB限制，需单独上传到Release或压缩）
+docs/*.mp4

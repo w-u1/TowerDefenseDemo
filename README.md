@@ -1,13 +1,17 @@
-# 塔防大作战
+﻿# 塔防大作战
 
 一款基于 Unity 2022.3 开发的 2D 塔防游戏。
 
 > 面向 Unity 实习岗位的完整项目，涵盖性能优化、对象池、事件总线、程序化生成等核心技术点。
 
-## 游戏截图
+## 游戏演示
 
-<!-- 在此处添加游戏截图，建议尺寸 1280x720 -->
-<!-- ![游戏截图](docs/screenshot.png) -->
+<video width="960" height="540" controls>
+  <source src="docs/gameplay-demo.mp4" type="video/mp4">
+  您的浏览器不支持视频播放。
+</video>
+
+> 注：视频文件较大（约108MB），若无法直接推送到GitHub，可压缩至100MB以下，或上传到GitHub Release后修改链接。
 
 ## 游戏特色
 
@@ -174,3 +178,4 @@ Assets/
 
 ### v1.0.0
 - 初始正式版本
+
